@@ -13,11 +13,11 @@
  
 
 ### **Como resolver o problema?**
-1. Criar a **superclasse** `AnimalRunner`,que tem o comportamento comum de todos animais.  
+1. Criar a **superclasse** `AnimalRunner`, que contém o comportamento em comum da corrida, e o método abstrato RunAnimal() para cada animal.  
 
-2. Cada animal (`Rabbit`, `Turtle`, `Goat`) implementados como uma **subclasse de `AnimalRunner`**, reutilizando o código da superclasse e personalizando apenas o método `runAnimal()`.
+2.(`Rabbit`, `Turtle`, `Goat`) implementados como uma **subclasse de `AnimalRunner`**,  com o comportamento comum controlado na superclasse e o método runAnimal() sendo específico de cada um.
 
-3. A classe principal, **BetterThreadRace**, cria as threads para os animais e inicia a corrida.
+3. A classe principal, **BetterThreadRace**, instancia os animais e executa as threads.
 
 ---
 
@@ -32,91 +32,72 @@
 ### 📜 **Código**
 
 ```java
-abstract class AnimalRunner {
+abstract class AnimalRunner implements Runnable {
     protected String name;
 
+    
     public AnimalRunner(String name) {
         this.name = name;
     }
 
     
     public abstract void runAnimal();
+
+    @Override
+    public void run() {
+        
+        System.out.println(name + " is at the start of the race!");
+        for (int pos = 10; pos > 0; pos--) {
+            runAnimal(); 
+            System.out.println(name + " is at position " + pos);
+        }
+        System.out.println(name + " finished the race!");
+    }
 }
 
-class Rabbit extends Thread {  
+class Rabbit extends AnimalRunner {
     public Rabbit(String name) {
         super(name);
     }
 
-    public void runAnimal() { 
-        System.out.println(getName() + " is running fast");
-    }
-
     @Override
-    public void run() {
-        System.out.println(getName() + " rabbit is at the start of the race!");
-        for (int pos = 10; pos > 0; pos--) {
-            runAnimal();
-            System.out.println(getName() + " is at position " + pos);
-        }
-        System.out.println(getName() + " rabbit finished the race!");
-    }
-}
-
-class Turtle implements Runnable {
-    private String name;
-
-    public Turtle(String name) {
-        this.name = name;
-    }
-
     public void runAnimal() {
-        System.out.println(name + " is running slow");
-    }
-
-    @Override
-    public void run() {
-        System.out.println(name + " turtle is at the start of the race!");
-        for (int pos = 10; pos > 0; pos--) {
-            runAnimal(); 
-            System.out.println(name + " is at position " + pos);
-        }
-        System.out.println(name + " turtle finished the race!");
+        System.out.println(name + " is running fast!");
     }
 }
 
-class Goat implements Runnable {
-    private String name;
-
-    public Goat(String name) {
-        this.name = name;
+class Turtle extends AnimalRunner {
+    public Turtle(String name) {
+        super(name);
     }
 
+    @Override
+    public void runAnimal() {
+        System.out.println(name + " is running slow!");
+    }
+}
+
+class Goat extends AnimalRunner {
+    public Goat(String name) {
+        super(name);
+    }
+
+    @Override
     public void runAnimal() {
         System.out.println(name + " aaaaaa");
-    }
-
-    @Override
-    public void run() {
-        System.out.println(name + " goat is at the start of the race!");
-        for (int pos = 10; pos > 0; pos--) {
-            runAnimal(); 
-            System.out.println(name + " is at position " + pos);
-        }
-        System.out.println(name + "  finished the race!");
     }
 }
 
 public class BetterThreadRace {
     public static void main(String[] args) {
-       
-        Rabbit r = new Rabbit("Snowball");
-        Thread t = new Thread(new Turtle("Donatello"));
-        Thread g = new Thread(new Goat("goat"));
+     
+        Thread rabbit = new Thread(new Rabbit("Snowball"));
+        Thread turtle = new Thread(new Turtle("Donatello"));
+        Thread goat = new Thread(new Goat("Goat"));
 
         
-        r.start();  
-        t.start();  
-        g.start();  
+        rabbit.start();
+        turtle.start();
+        goat.start();
     }
 }
