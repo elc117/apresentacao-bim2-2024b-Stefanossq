@@ -15,7 +15,7 @@
 ### **Como resolver o problema?**
 1. Criar a **superclasse** `AnimalRunner`,que tem o comportamento comum de todos animais.  
 
-2. Cada animal (`Rabbit`, `Turtle`, `Goat`) implementados como uma **subclasse de `AnimalRunner`**, reutilizando o código da superclasse e personalizando apenas o método `runLikeAnimal()`.
+2. Cada animal (`Rabbit`, `Turtle`, `Goat`) implementados como uma **subclasse de `AnimalRunner`**, reutilizando o código da superclasse e personalizando apenas o método `runAnimal()`.
 
 3. A classe principal, **BetterThreadRace**, cria as threads para os animais e inicia a corrida.
 
@@ -28,11 +28,11 @@
    
    *2* Cada animal herda a classe base `AnimalRunner`, que define o comportamento comum a todos os animais. 
    
-   *3*  Método `runLikeAnimal()` define o comportamento específico de cada animal durante a corrida.
+   *3*  Método `runAnimal()` define o comportamento específico de cada animal durante a corrida.
 
 A estrutura do código é organizada da seguinte forma:
 
-1. **Classe Base: `AnimalRunner`**: define a estrutura básica para todos os animais, como o início da corrida e o controle da execução. O método `run()` controla a corrida e chama o método abstrato `runLikeAnimal()`, que será implementado nas subclasses.
+1. **Classe Base: `AnimalRunner`**: define a estrutura básica para todos os animais, como o início da corrida e o controle da execução. O método `run()` controla a corrida e chama o método abstrato `runAnimal()`, que será implementado nas subclasses.
 2. **Subclasses (`Rabbit`, `Turtle`, `Goat`)**: Cada uma dessas classes herda de `AnimalRunner` e implementa o comportamento específico de como o animal se comporta na corrida.
 3. **Classe Principal: `BetterThreadRace`**: A classe principal gerencia a execução das threads. Ela cria instâncias dos animais e inicia a execução das threads para simular a corrida.
 
@@ -41,69 +41,91 @@ A estrutura do código é organizada da seguinte forma:
 ### 📜 **Código**
 
 ```java
-abstract class AnimalRunner extends Thread {
+abstract class AnimalRunner {
     protected String name;
 
     public AnimalRunner(String name) {
         this.name = name;
     }
 
-    @Override
-    public void run() {
-        System.out.println(name + " is at the start of the race!");
-        for (int pos = 10; pos > 0; pos--) {
-            runLikeAnimal();
-            System.out.println(name + " is at position " + pos);
-        }
-        System.out.println(name + " finished the race!");
-    }
-
-    protected abstract void runLikeAnimal();
+    
+    public abstract void runAnimal();
 }
 
-class Rabbit extends AnimalRunner {
+class Rabbit extends Thread {  
     public Rabbit(String name) {
         super(name);
     }
 
+    public void runAnimal() { 
+        System.out.println(getName() + " is running fast");
+    }
+
     @Override
-    protected void runLikeAnimal() {
-        System.out.println(name + " is running fast");
+    public void run() {
+        System.out.println(getName() + " rabbit is at the start of the race!");
+        for (int pos = 10; pos > 0; pos--) {
+            runAnimal();
+            System.out.println(getName() + " is at position " + pos);
+        }
+        System.out.println(getName() + " rabbit finished the race!");
     }
 }
 
-class Turtle extends AnimalRunner {
+class Turtle implements Runnable {
+    private String name;
+
     public Turtle(String name) {
-        super(name);
+        this.name = name;
     }
 
-    @Override
-    protected void runLikeAnimal() {
+    public void runAnimal() {
         System.out.println(name + " is running slow");
     }
+
+    @Override
+    public void run() {
+        System.out.println(name + " turtle is at the start of the race!");
+        for (int pos = 10; pos > 0; pos--) {
+            runAnimal(); 
+            System.out.println(name + " is at position " + pos);
+        }
+        System.out.println(name + " turtle finished the race!");
+    }
 }
 
-class Goat extends AnimalRunner {
+class Goat implements Runnable {
+    private String name;
+
     public Goat(String name) {
-        super(name);
+        this.name = name;
+    }
+
+    public void runAnimal() {
+        System.out.println(name + " aaaaaa");
     }
 
     @Override
-    protected void runLikeAnimal() {
-        System.out.println(name + " aaaaa");
+    public void run() {
+        System.out.println(name + " goat is at the start of the race!");
+        for (int pos = 10; pos > 0; pos--) {
+            runAnimal(); 
+            System.out.println(name + " is at position " + pos);
+        }
+        System.out.println(name + "  finished the race!");
     }
 }
 
 public class BetterThreadRace {
     public static void main(String[] args) {
-        AnimalRunner rabbit = new Rabbit("Snowball");
-        AnimalRunner turtle = new Turtle("Donatello");
-        AnimalRunner goat = new Goat("goat");
+       
+        Rabbit r = new Rabbit("Snowball");
+        Thread t = new Thread(new Turtle("Donatello"));
+        Thread g = new Thread(new Goat("goat"));
 
-        rabbit.start();
-        turtle.start();
-        goat.start();
+        
+        r.start();  
+        t.start();  
+        g.start();  
     }
 }
-
-
