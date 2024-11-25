@@ -23,17 +23,8 @@
 
 ## **🛠️ Estrutura do Código**
 
- *1* Utilizar herança e threads para simular a corrida de três animais: Coelho (Rabbit), Tartaruga (Turtle) e Bode (Goat).  
- 
-   
-   *2* Cada animal herda a classe base `AnimalRunner`, que define o comportamento comum a todos os animais. 
-   
-   *3*  Método `runAnimal()` define o comportamento específico de cada animal durante a corrida.
-
-A estrutura do código é organizada da seguinte forma:
-
 1. **Classe Base: `AnimalRunner`**: define a estrutura básica para todos os animais, como o início da corrida e o controle da execução. O método `run()` controla a corrida e chama o método abstrato `runAnimal()`, que será implementado nas subclasses.
-2. **Subclasses (`Rabbit`, `Turtle`, `Goat`)**: Cada uma dessas classes herda de `AnimalRunner` e implementa o comportamento específico de como o animal se comporta na corrida.
+2. **Subclasses (`Rabbit`, `Turtle`, `Goat`)**: Cada uma dessas classes herda de `AnimalRunner` e implementa o jeito de correr.
 3. **Classe Principal: `BetterThreadRace`**: A classe principal gerencia a execução das threads. Ela cria instâncias dos animais e inicia a execução das threads para simular a corrida.
 
 ---
