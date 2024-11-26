@@ -32,41 +32,46 @@
 ### 📜 **Código**
 
 ```java
-abstract class AnimalRunner implements Runnable {
+abstract class AnimalRunner {
     protected String name;
 
-    
     public AnimalRunner(String name) {
         this.name = name;
     }
 
-    
     public abstract void runAnimal();
 
-    @Override
-    public void run() {
-        
+    public void race() {
         System.out.println(name + " is at the start of the race!");
         for (int pos = 10; pos > 0; pos--) {
-            runAnimal(); 
+            runAnimal();
             System.out.println(name + " is at position " + pos);
         }
         System.out.println(name + " finished the race!");
     }
 }
 
-class Rabbit extends AnimalRunner {
+
+class Rabbit extends Thread {
+    private String name;
+
     public Rabbit(String name) {
-        super(name);
+        this.name = name;
     }
 
     @Override
-    public void runAnimal() {
-        System.out.println(name + " is running fast!");
+    public void run() {
+        System.out.println(name + " is at the start of the race!");
+        for (int pos = 10; pos > 0; pos--) {
+            System.out.println(name + " is running fast!");
+            System.out.println(name + " is at position " + pos);
+        }
+        System.out.println(name + " finished the race!");
     }
 }
 
-class Turtle extends AnimalRunner {
+
+class Turtle extends AnimalRunner implements Runnable {
     public Turtle(String name) {
         super(name);
     }
@@ -75,34 +80,45 @@ class Turtle extends AnimalRunner {
     public void runAnimal() {
         System.out.println(name + " is running slow!");
     }
+
+    @Override
+    public void run() {
+        race();
+    }
 }
 
-class Goat extends AnimalRunner {
+
+class Goat extends AnimalRunner implements Runnable {
     public Goat(String name) {
         super(name);
     }
 
     @Override
     public void runAnimal() {
-        System.out.println(name + " aaaaaa");
+        System.out.println(name + " is aaaaa");
+    }
+
+    @Override
+    public void run() {
+        race();
     }
 }
 
 public class BetterThreadRace {
     public static void main(String[] args) {
-     
-        Thread rabbit = new Thread(new Rabbit("Snowball"));
+        Thread rabbit = new Rabbit("Snowball");
         Thread turtle = new Thread(new Turtle("Donatello"));
-        Thread goat = new Thread(new Goat("Goat"));
+        Thread goat = new Thread(new Goat("goat"));
 
-        
         rabbit.start();
         turtle.start();
         goat.start();
     }
 }
 
+}
+
 ---
 
-![bandicam-2024-11-26-01-07-59-493](https://github.com/user-attachments/assets/bbe7d3c0-9d81-4b49-a0ae-37e9385ce4ec)
+
 
