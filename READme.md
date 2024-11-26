@@ -29,6 +29,7 @@
 
 ---
 
+
 ### 📜 **Código**
 
 ```java
@@ -118,7 +119,15 @@ public class BetterThreadRace {
 
 }
 
+```
+
+
+
 ---
 
+![bandicam-2024-11-26-08-38-50-669](https://github.com/user-attachments/assets/7923af00-a50e-4030-8615-254b39dc3ab4)
 
+#### Referências: 
+
+Aula21 Programação concorrente e orientada a objetos em Java: threads : https://liascript.github.io/course/?https://raw.githubusercontent.com/AndreaInfUFSM/elc117-2024b/main/classes/21/README.md#1
 
