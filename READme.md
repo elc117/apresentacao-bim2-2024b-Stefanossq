@@ -101,3 +101,8 @@ public class BetterThreadRace {
         goat.start();
     }
 }
+
+---
+
+![bandicam-2024-11-26-01-07-59-493](https://github.com/user-attachments/assets/bbe7d3c0-9d81-4b49-a0ae-37e9385ce4ec)
+
